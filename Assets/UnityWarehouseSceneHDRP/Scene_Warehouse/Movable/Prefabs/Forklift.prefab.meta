@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: be3ab93fbb5141c4b8bc627e30a36f41
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 276394
+  packageName: UnityWarehouse
+  packageVersion: 1.0
+  assetPath: Assets/UnityWarehouseSceneHDRP/Scene_Warehouse/Movable/Prefabs/Forklift.prefab
+  uploadId: 645178

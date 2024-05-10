@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 035c1d7084ec12843bc0d683f9891c25
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 276394
+  packageName: UnityWarehouse
+  packageVersion: 1.0
+  assetPath: Assets/UnityWarehouseSceneHDRP/Scene_Warehouse/Background/Materials/Trolley.mat
+  uploadId: 645178

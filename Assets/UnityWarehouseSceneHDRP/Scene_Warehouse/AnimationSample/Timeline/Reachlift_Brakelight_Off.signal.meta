@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 60744ad725510254f9d7bb021ca343d2
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 276394
+  packageName: UnityWarehouse
+  packageVersion: 1.0
+  assetPath: Assets/UnityWarehouseSceneHDRP/Scene_Warehouse/AnimationSample/Timeline/Reachlift_Brakelight_Off.signal
+  uploadId: 645178

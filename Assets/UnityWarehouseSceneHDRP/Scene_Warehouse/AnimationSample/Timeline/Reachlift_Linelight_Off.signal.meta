@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 504f2c6958c1eda4c881c8c8a0fb5b69
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 276394
+  packageName: UnityWarehouse
+  packageVersion: 1.0
+  assetPath: Assets/UnityWarehouseSceneHDRP/Scene_Warehouse/AnimationSample/Timeline/Reachlift_Linelight_Off.signal
+  uploadId: 645178

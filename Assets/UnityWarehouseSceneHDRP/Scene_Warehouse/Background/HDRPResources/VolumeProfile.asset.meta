@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 8435f386d897165498e822d1697313b8
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 276394
+  packageName: UnityWarehouse
+  packageVersion: 1.0
+  assetPath: Assets/UnityWarehouseSceneHDRP/Scene_Warehouse/Background/HDRPResources/VolumeProfile.asset
+  uploadId: 645178

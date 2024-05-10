@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 8a96c1c5f1c516449bf82d730159e15c
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 276394
+  packageName: UnityWarehouse
+  packageVersion: 1.0
+  assetPath: Assets/UnityWarehouseSceneHDRP/Scene_Warehouse/AnimationSample/Timeline/Forklift_WinkerRight_On.signal
+  uploadId: 645178

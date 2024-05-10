@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 569f7f34ae716724db769d1f78b7a55f
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 276394
+  packageName: UnityWarehouse
+  packageVersion: 1.0
+  assetPath: Assets/UnityWarehouseSceneHDRP/Scene_Warehouse/AnimationSample/Scripts/ReachliftLight.cs
+  uploadId: 645178

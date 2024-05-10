@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 86883ff18757be346a240cd38596c009
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 276394
+  packageName: UnityWarehouse
+  packageVersion: 1.0
+  assetPath: Assets/UnityWarehouseSceneHDRP/Scene_Warehouse/Background/Materials/Skybox.mat
+  uploadId: 645178

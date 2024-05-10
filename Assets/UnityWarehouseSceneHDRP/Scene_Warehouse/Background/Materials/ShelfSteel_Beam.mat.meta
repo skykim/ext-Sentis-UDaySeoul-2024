@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: bdfd28d9839b21a4590fd49b32322129
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 276394
+  packageName: UnityWarehouse
+  packageVersion: 1.0
+  assetPath: Assets/UnityWarehouseSceneHDRP/Scene_Warehouse/Background/Materials/ShelfSteel_Beam.mat
+  uploadId: 645178

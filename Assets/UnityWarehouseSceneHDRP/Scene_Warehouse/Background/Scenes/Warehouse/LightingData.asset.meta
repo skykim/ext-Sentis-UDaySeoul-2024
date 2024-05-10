@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 9d27339542ece344e9d4ab32135f8f31
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 112000000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 276394
+  packageName: UnityWarehouse
+  packageVersion: 1.0
+  assetPath: Assets/UnityWarehouseSceneHDRP/Scene_Warehouse/Background/Scenes/Warehouse/LightingData.asset
+  uploadId: 645178

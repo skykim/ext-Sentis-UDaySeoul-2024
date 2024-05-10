@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 9f4db2fd160f70d46a8e621fb8f3233a
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 276394
+  packageName: UnityWarehouse
+  packageVersion: 1.0
+  assetPath: Assets/UnityWarehouseSceneHDRP/Scene_Warehouse/AnimationSample/Timeline/Forklift_Brakelight_Off.signal
+  uploadId: 645178

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 10c3e41512755b74e89dd12adb7c93e6
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 276394
+  packageName: UnityWarehouse
+  packageVersion: 1.0
+  assetPath: Assets/UnityWarehouseSceneHDRP/Scene_Warehouse/Background/Materials/Cardboard_B3.mat
+  uploadId: 645178

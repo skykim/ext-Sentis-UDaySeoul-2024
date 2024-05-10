@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 0b59c81fd17d89a40ad10f3e9993f967
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 276394
+  packageName: UnityWarehouse
+  packageVersion: 1.0
+  assetPath: Assets/UnityWarehouseSceneHDRP/Scene_Warehouse/Movable/Materials/Worker_Boots.mat
+  uploadId: 645178

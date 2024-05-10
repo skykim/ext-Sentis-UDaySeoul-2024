@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 794c26ceb9873cd43b67be5e7c010cf0
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 276394
+  packageName: UnityWarehouse
+  packageVersion: 1.0
+  assetPath: Assets/UnityWarehouseSceneHDRP/Scene_Warehouse/AnimationSample/Timeline/Box4_Pallet2.signal
+  uploadId: 645178

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: b6168a88580e1cc4693d77e8267e7fce
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 276394
+  packageName: UnityWarehouse
+  packageVersion: 1.0
+  assetPath: Assets/UnityWarehouseSceneHDRP/Scene_Warehouse/Background/Materials/TopLight_Frame.mat
+  uploadId: 645178

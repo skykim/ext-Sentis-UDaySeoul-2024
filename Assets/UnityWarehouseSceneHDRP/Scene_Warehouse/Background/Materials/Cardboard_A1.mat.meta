@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 1d27d253d7f45be48a7100dc7f5a1b53
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 276394
+  packageName: UnityWarehouse
+  packageVersion: 1.0
+  assetPath: Assets/UnityWarehouseSceneHDRP/Scene_Warehouse/Background/Materials/Cardboard_A1.mat
+  uploadId: 645178

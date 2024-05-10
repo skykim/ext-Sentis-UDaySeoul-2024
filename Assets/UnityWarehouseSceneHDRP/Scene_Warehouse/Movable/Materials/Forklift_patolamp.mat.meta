@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 697231206a91672499646427a619f744
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 276394
+  packageName: UnityWarehouse
+  packageVersion: 1.0
+  assetPath: Assets/UnityWarehouseSceneHDRP/Scene_Warehouse/Movable/Materials/Forklift_patolamp.mat
+  uploadId: 645178

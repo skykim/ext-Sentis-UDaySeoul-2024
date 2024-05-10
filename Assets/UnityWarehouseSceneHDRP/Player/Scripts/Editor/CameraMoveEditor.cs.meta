@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 16a40eb91bf22bf4d814ed7a88185a83
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 276394
+  packageName: UnityWarehouse
+  packageVersion: 1.0
+  assetPath: Assets/UnityWarehouseSceneHDRP/Player/Scripts/Editor/CameraMoveEditor.cs
+  uploadId: 645178

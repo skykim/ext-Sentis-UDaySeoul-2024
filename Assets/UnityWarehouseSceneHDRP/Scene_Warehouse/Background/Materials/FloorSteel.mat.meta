@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 42f4f2c3e1cf55f47bdc13ebbb7ba15e
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 276394
+  packageName: UnityWarehouse
+  packageVersion: 1.0
+  assetPath: Assets/UnityWarehouseSceneHDRP/Scene_Warehouse/Background/Materials/FloorSteel.mat
+  uploadId: 645178

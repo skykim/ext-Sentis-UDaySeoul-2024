@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 30be1da6e0595604aab9c3a3128b74f3
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 9100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 276394
+  packageName: UnityWarehouse
+  packageVersion: 1.0
+  assetPath: Assets/UnityWarehouseSceneHDRP/Scene_Warehouse/AnimationSample/AnimatorController/Tablet.controller
+  uploadId: 645178

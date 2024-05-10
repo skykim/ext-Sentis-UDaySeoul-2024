@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 9bd5fad8804f1b44b9bf19ed559e12fe
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 276394
+  packageName: UnityWarehouse
+  packageVersion: 1.0
+  assetPath: Assets/UnityWarehouseSceneHDRP/Player/Prefabs/Player.prefab
+  uploadId: 645178
