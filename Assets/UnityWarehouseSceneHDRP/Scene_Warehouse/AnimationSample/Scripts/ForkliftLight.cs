@@ -1,5 +1,7 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.HighDefinition;
 
 
 
@@ -12,12 +14,10 @@ namespace UnityWarehouseSceneHDRP
 		[SerializeField] private Renderer _light;
 		[SerializeField] private Renderer _light2;
 		[SerializeField] private GameObject _lineLight;
-		[SerializeField] Transform _warningLight; 
+		[SerializeField] List<Transform> _warningLights; 
 		[SerializeField] private float _rotateSpeed;
-
-
-
-
+		[SerializeField] Light _patolight;
+		[SerializeField] Light _patolight2;
 
 		public void WinkerRight(bool isEnabled)
 		{
@@ -85,9 +85,6 @@ namespace UnityWarehouseSceneHDRP
 		}
 
 
-
-
-
 		private void Awake()
 		{
 			_light2.material.SetFloat("_Patolamp_On", 1);
@@ -95,7 +92,18 @@ namespace UnityWarehouseSceneHDRP
 
 		private void Update()
 		{
-			_warningLight.Rotate(0, _rotateSpeed, 0);
+			RoatateWarming();
+		}
+
+		private void RoatateWarming()
+		{
+			for(int i=0; i < _warningLights.Count; i++)
+			{
+				if(_warningLights[i] != null )
+				{
+					_warningLights[i].Rotate(0, _rotateSpeed, 0);
+				}
+			}
 		}
 	}
 }
