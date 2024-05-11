@@ -1,7 +1,8 @@
 fileFormatVersion: 2
-guid: be3ab93fbb5141c4b8bc627e30a36f41
-PrefabImporter:
+guid: e6a369aa8a9c8b94e837a18699269446
+NativeFormatImporter:
   externalObjects: {}
+  mainObjectFileID: 9100000
   userData: 
   assetBundleName: 
   assetBundleVariant: 
@@ -10,5 +11,5 @@ AssetOrigin:
   productId: 276394
   packageName: UnityWarehouse
   packageVersion: 1.0
-  assetPath: Assets/UnityWarehouseSceneHDRP/Scene_Warehouse/Movable/Prefabs/Forklift.prefab
+  assetPath: Assets/UnityWarehouseSceneHDRP/Scene_Warehouse/AnimationSample/AnimatorController/Tablet.controller
   uploadId: 645178

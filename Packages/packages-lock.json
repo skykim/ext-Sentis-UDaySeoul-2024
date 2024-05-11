@@ -175,6 +175,31 @@
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
+    "com.unity.pixyz.plugin4unity": {
+      "version": "2.0.8",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.pixyz.unity-sdk": "1.0.50"
+      },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.pixyz.sdk-plus": {
+      "version": "1.0.6",
+      "depth": 2,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.pixyz.unity-sdk": {
+      "version": "1.0.50",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.pixyz.sdk-plus": "1.0.6"
+      },
+      "url": "https://packages.unity.com"
+    },
     "com.unity.render-pipelines.core": {
       "version": "16.0.5",
       "depth": 1,
