@@ -46,6 +46,7 @@ public class SentisManager : MonoBehaviour
 
     void Start()
     {
+        //Application.targetFrameRate= 60;
         promptField.gameObject.SetActive(false);
         _player = GameObject.FindWithTag("Player");
         _reporter = GameObject.FindWithTag("Reporter");
