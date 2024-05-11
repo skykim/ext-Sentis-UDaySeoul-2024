@@ -19,14 +19,13 @@ public class WorkerAgent : MonoBehaviour
         Tablet
     }
 
-    public State state = State.Idle;
+    State state = State.Idle;
 
     void Start()
     {
         _agent = GetComponent<NavMeshAgent>();
         _anim = GetComponent<Animator>();
         _reporterTr = transform;
-        Debug.Log("Starting Report");
         //_player = GameObject.FindWithTag("Player").transform;
         //StartCoroutine(CheckAndMovePlayerTr(_player.transform));
         //StartCoroutine(CheckAnimator());

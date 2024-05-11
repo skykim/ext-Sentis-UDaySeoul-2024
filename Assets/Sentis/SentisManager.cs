@@ -13,6 +13,7 @@ public class SentisManager : MonoBehaviour
     ModelMiniLM _miniLMObject;
     ModelYOLO _yoloObject;
     CustomPassVolume _yoloPass;
+    UIManager _UIManager;
     public List<string> actionList;
     public List<GameObject> Cameras = new List<GameObject>();
     enum CameraState
@@ -23,7 +24,7 @@ public class SentisManager : MonoBehaviour
     }
     
     Dictionary<int, GameObject> cameraDictionary = new Dictionary<int, GameObject>();
-    int activatedCamIndex;
+    int activatedCamIndex = 1;
 
     public List<GameObject> _interiorObjects = new List<GameObject>(); 
     public List<Material> _interiorMaterials= new List<Material>(); 
@@ -33,7 +34,7 @@ public class SentisManager : MonoBehaviour
     public GameObject _reporter; 
 
     public TMP_Text textSimilarity;
-    public PlayableDirector playableDirector;
+    public PlayableDirector _robotsDirector;
 
     [SerializeField]
     private TMP_InputField promptField;
@@ -54,7 +55,8 @@ public class SentisManager : MonoBehaviour
         _miniLMObject = GameObject.FindWithTag("MiniLM").GetComponent<ModelMiniLM>();
         _yoloObject = GameObject.FindWithTag("Yolo").GetComponent<ModelYOLO>();
         _yoloPass =  GameObject.FindWithTag("Yolo").GetComponent<CustomPassVolume>();
-        playableDirector.Pause();
+        _UIManager = GameObject.FindWithTag("UIManager").GetComponent<UIManager>();
+        _robotsDirector.Pause();
         for (int i = 0; i < Cameras.Count; i++)
         {
             cameraDictionary.Add(i, Cameras[i]);
@@ -92,24 +94,6 @@ public class SentisManager : MonoBehaviour
                 });
             }
         }
-
-        /*
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            float similarity = miniLMObject.RunMiniLM("Hello there", "Hello there");
-            Debug.Log(similarity);
-        }
-
-        if (Input.GetKeyDown(KeyCode.LeftShift))
-        {
-            yoloObject.StartYolo();
-        }
-        
-        if (Input.GetKeyDown(KeyCode.RightShift))
-        {
-            yoloObject.StopYolo();
-        }
-        */
     }
     
     public void CalculateSimilarity()
@@ -192,11 +176,39 @@ public class SentisManager : MonoBehaviour
 
     void RunPalletrobot()
     {
-        if (playableDirector.state == PlayState.Paused)
-            playableDirector.Play();
-        else if (playableDirector.state == PlayState.Playing)
-            playableDirector.Pause();
+        if (_robotsDirector.state == PlayState.Paused)
+            _robotsDirector.Play();
+        else if (_robotsDirector.state == PlayState.Playing)
+            _robotsDirector.Pause();
     }
+
+    void EnableYolo()
+    {
+        _yoloPass.enabled = !_yoloPass.enabled;
+        CheckCullingMask();
+        _UIManager.AnimatedSprite(_UIManager._sentisAnimation);
+    }
+
+    void CheckCullingMask()
+    {
+        cameraDictionary.TryGetValue(activatedCamIndex, out GameObject gameObject);
+        int playerLayerBit = 1 << LayerMask.NameToLayer("Player");
+        Camera _cam = gameObject.GetComponent<Camera>();
+        int currentMask = _cam.cullingMask;
+        bool isPlayerLayerIncluded = (currentMask & playerLayerBit) != 0;
+
+        if (isPlayerLayerIncluded)
+        {
+            currentMask &= ~playerLayerBit; 
+            _cam.cullingMask = currentMask;
+        }
+        else
+        {
+            currentMask |= playerLayerBit;
+            _cam.cullingMask = currentMask;
+        }
+    }
+    
     void DoAction(int actionIndex)
     {
         Debug.Log("chosen action:" + actionIndex);
@@ -212,7 +224,7 @@ public class SentisManager : MonoBehaviour
                 UpdateCameraState(CameraState.TopView);
                 break;
             case 3:
-                _yoloPass.enabled = !_yoloPass.enabled;
+                EnableYolo();
                 break;
             case 4:
                 _reportController.StartCoroutine(_reportController.CheckAndMovePlayerTr(_player.transform));
