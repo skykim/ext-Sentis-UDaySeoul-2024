@@ -5,13 +5,14 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.Playables;
+using UnityEngine.Rendering.HighDefinition;
 
 public class SentisManager : MonoBehaviour
 {
-    public ModelYOLO yoloObject;
-    public ModelWhisper whisperObject;
-    public ModelMiniLM miniLMObject;
-    
+    ModelWhisper _whisperObject;
+    ModelMiniLM _miniLMObject;
+    ModelYOLO _yoloObject;
+    CustomPassVolume _yoloPass;
     public List<string> actionList;
     public List<GameObject> Cameras = new List<GameObject>();
     enum CameraState
@@ -49,7 +50,11 @@ public class SentisManager : MonoBehaviour
         _reporter = GameObject.FindWithTag("Reporter");
         _controller = _player.GetComponent<ThirdPersonController>();
         _reportController =  _reporter.GetComponent<WorkerAgent>();
-
+        _whisperObject = GameObject.FindWithTag("Whisper").GetComponent<ModelWhisper>();
+        _miniLMObject = GameObject.FindWithTag("MiniLM").GetComponent<ModelMiniLM>();
+        _yoloObject = GameObject.FindWithTag("Yolo").GetComponent<ModelYOLO>();
+        _yoloPass =  GameObject.FindWithTag("Yolo").GetComponent<CustomPassVolume>();
+        playableDirector.Pause();
         for (int i = 0; i < Cameras.Count; i++)
         {
             cameraDictionary.Add(i, Cameras[i]);
@@ -69,17 +74,17 @@ public class SentisManager : MonoBehaviour
         
         if (Input.GetKeyDown(KeyCode.RightBracket))
         {
-            if (whisperObject.isRecording == false)
+            if (_whisperObject.isRecording == false)
             {
-                whisperObject.StartRecording();
+                _whisperObject.StartRecording();
             }
         }
         else if (Input.GetKeyUp(KeyCode.RightBracket))
         {
-            if (whisperObject.isRecording == true)
+            if (_whisperObject.isRecording == true)
             {
-                whisperObject.StopRecording();
-                whisperObject.RunWhisper(result =>
+                _whisperObject.StopRecording();
+                _whisperObject.RunWhisper(result =>
                 {
                     Debug.Log("Result:" + result);
                     promptField.text = result;
@@ -124,7 +129,7 @@ public class SentisManager : MonoBehaviour
                     
                     for(int index=0; index<actionList.Count; index++)
                     {
-                        float score = miniLMObject.RunMiniLM(result, actionList[index]);
+                        float score = _miniLMObject.RunMiniLM(result, actionList[index]);
 
                         if (maxScore < score)
                         {
@@ -146,7 +151,7 @@ public class SentisManager : MonoBehaviour
         }
     }
     
-    void UpdateCameraState(CameraState newCameraState, bool yoloOn)
+    void UpdateCameraState(CameraState newCameraState)
     {
         activatedCamIndex = (int)newCameraState;
         foreach (KeyValuePair<int, GameObject> kvp in cameraDictionary)
@@ -160,14 +165,6 @@ public class SentisManager : MonoBehaviour
                 kvp.Value.SetActive(false);
             }
         }
-        if (yoloOn == false)
-        {
-            yoloObject.StopYolo();
-        }
-        else
-        {
-            yoloObject.StartYolo();
-        }
     }
 
     void ToggleMood()
@@ -179,14 +176,7 @@ public class SentisManager : MonoBehaviour
             for (int i = 0; i<_interiorObjects.Count; i++)
             {
                 Renderer ren =_interiorObjects[i].GetComponent<Renderer>();
-                if (i==0)
-                {
-                    ren.material = _interiorMaterials[5];
-                }
-                else
-                {
-                    ren.material = _interiorMaterials[6];   
-                }
+                ren.material = _interiorMaterials[4];
             }
         }
         else
@@ -199,31 +189,39 @@ public class SentisManager : MonoBehaviour
             }
         }
     }
+
+    void RunPalletrobot()
+    {
+        if (playableDirector.state == PlayState.Paused)
+            playableDirector.Play();
+        else if (playableDirector.state == PlayState.Playing)
+            playableDirector.Pause();
+    }
     void DoAction(int actionIndex)
     {
         Debug.Log("chosen action:" + actionIndex);
         switch (actionIndex)
         {
             case 0:
-                UpdateCameraState(CameraState.ForkreitView, true);
+                UpdateCameraState(CameraState.ForkreitView);
                 break;
             case 1:
-                UpdateCameraState(CameraState.NPCView, false);
+                UpdateCameraState(CameraState.NPCView);
                 break;
             case 2:
-                UpdateCameraState(CameraState.TopView, false);
+                UpdateCameraState(CameraState.TopView);
                 break;
             case 3:
+                _yoloPass.enabled = !_yoloPass.enabled;
+                break;
+            case 4:
                 _reportController.StartCoroutine(_reportController.CheckAndMovePlayerTr(_player.transform));
                 _reportController.StartCoroutine(_reportController.CheckAnimator());
                 break;       
-            case 4:
-                if (playableDirector.state == PlayState.Paused)
-                    playableDirector.Play();
-                else if (playableDirector.state == PlayState.Playing)
-                    playableDirector.Pause();
-                break;
             case 5:
+                RunPalletrobot();
+                break;
+            case 6:
                 ToggleMood();
                 break;
         }

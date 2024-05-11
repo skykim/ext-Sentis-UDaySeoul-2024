@@ -5,7 +5,7 @@ using UnityEngine.AI;
 public class WorkerAgent : MonoBehaviour
 {
     Transform _reporterTr;
-    //Transform _playerTr;
+    //Transform _player;
     NavMeshAgent _agent;
     Vector3 _destination;
     Animator _anim;
@@ -26,7 +26,10 @@ public class WorkerAgent : MonoBehaviour
         _agent = GetComponent<NavMeshAgent>();
         _anim = GetComponent<Animator>();
         _reporterTr = transform;
-        //_playerTr = GameObject.FindWithTag("Player").transform;
+        Debug.Log("Starting Report");
+        //_player = GameObject.FindWithTag("Player").transform;
+        //StartCoroutine(CheckAndMovePlayerTr(_player.transform));
+        //StartCoroutine(CheckAnimator());
     }
 
     public IEnumerator CheckAndMovePlayerTr(Transform Destination)
@@ -42,13 +45,13 @@ public class WorkerAgent : MonoBehaviour
                 state = State.Run;
                 _agent.isStopped = false;
                 _agent.destination = _destination;
-                transform.LookAt(Destination); // No animation for rotating :D...
+                transform.LookAt(Destination); 
             }
             else if (Mathf.RoundToInt(_distance) <= _safetyDistance)
             {
                 state = State.Tablet;
                 _agent.isStopped = true;
-                transform.LookAt(Destination);
+                //transform.LookAt(Destination);
             }
         }
     }
