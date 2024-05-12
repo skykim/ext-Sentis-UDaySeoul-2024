@@ -241,7 +241,6 @@ public class ModelWhisper : MonoBehaviour
 
     bool IsWhiteSpace(char c)
     {
-        //return !(('!' <= c && c <= '~') || ('�' <= c && c <= '�') || ('�' <= c && c <= '�'));
         return !((33 <= c && c <= 126) || (161 <= c && c <= 172) || (187 <= c && c <= 255));
     }
 

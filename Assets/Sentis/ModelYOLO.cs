@@ -45,30 +45,33 @@ public class ModelYOLO : MonoBehaviour
     
     void Start()
     {
-        SelectQuantized();
-        model = ModelLoader.Load(Application.streamingAssetsPath +"/"+ modelName);
-        engine = WorkerFactory.CreateWorker(backend, model);
         customPassVolume = GetComponent<CustomPassVolume>();
         labels = labelsAsset.text.Split('\n');
     }
 
-    public void SelectQuantized()
+    public void SelectingModel()
     {
+        engine?.Dispose();
         switch (_selectedModel)
         {
             case SelectedModel.Original:
                 modelName = "yolov7-tiny.sentis";
-                Debug.Log(modelName);
                 break;
             case SelectedModel.Float16:
                 modelName = "yolov7-tiny_Float16.sentis";
-                Debug.Log(modelName);
                 break;
             case SelectedModel.Uint8:
                 modelName = "yolov7-tiny_Uint8.sentis";
-                Debug.Log(modelName);
                 break;
         }
+        model = ModelLoader.Load(Application.streamingAssetsPath +"/"+ modelName);
+        engine = WorkerFactory.CreateWorker(backend, model);
+        Debug.Log("Select : " + modelName);
+    }
+
+    void OnValidate()
+    {
+        SelectingModel();
     }
 
     public void StartYolo()

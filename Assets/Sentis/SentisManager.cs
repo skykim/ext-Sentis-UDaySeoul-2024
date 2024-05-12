@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using StarterAssets;
 using TMPro;
 using UnityEngine;
@@ -40,6 +41,8 @@ public class SentisManager : MonoBehaviour
     public GameObject _reporter; 
 
     public TMP_Text textSimilarity;
+    string _dashLine = new string('=', 34);
+
     public PlayableDirector _robotsDirector;
 
     [SerializeField]
@@ -115,28 +118,47 @@ public class SentisManager : MonoBehaviour
         {
             int maxScoreIndex = -1;
             float maxScore = 0.0f;
-            
+            float score;
+            int _Dindex = 0;
+
+            textSimilarity.text = "<color=#FF5733><b>KOR (Recorded) : " + promptField.text + "</b></color>\n";
+
             StartCoroutine(TranslateCoroutine(promptField.text, result =>
             {
                 if (result != "Error")
                 {
-                    textSimilarity.text = promptField.text + " (" + result + ")\n";
+                    textSimilarity.text += "<color=#FF5733><b>" + "ENG (Translated) : " + promptField.text + " " + result + "</b></color>\n";
+                    textSimilarity.text += _dashLine + "</color=FFFFF>\n";
                     Debug.Log("Translated: " + result);
+                    Dictionary<float, string> textes = new Dictionary<float, string>();
                     
                     for(int index=0; index<actionList.Count; index++)
                     {
-                        float score = _miniLMObject.RunMiniLM(result, actionList[index]);
+                        score = _miniLMObject.RunMiniLM(result, actionList[index]);
 
                         if (maxScore < score)
                         {
                             maxScore = score;
                             maxScoreIndex = index;
                         }
-                
-                        textSimilarity.text += score.ToString("F3") + " " + actionList[index] + "\n";
+                        
+                        textes.Add(score, actionList[index]);
                     }
                     
-                    if (maxScore > similarity_threshold)
+                    foreach (KeyValuePair<float, string> pair in textes)
+                    {
+                        if (_Dindex == maxScoreIndex)
+                        {
+                            textSimilarity.text += "<color=#FF5733><b>" + pair.Key.ToString("F3") + "</b></color> <color=#FFA500>" + actionList[_Dindex] + "</color>\n";
+                        }
+                        else
+                        {
+                            textSimilarity.text += pair.Key.ToString("F3") + " " + actionList[_Dindex] + "</color>\n";
+                        }
+                        _Dindex++;
+                    }
+
+                    if (maxScore >= similarity_threshold)
                         DoAction(maxScoreIndex);
                 }
                 else
@@ -214,6 +236,7 @@ public class SentisManager : MonoBehaviour
             break;
         }
         CheckCullingMask(yoloState);
+        //_UIManager.AnimatedSprite(_UIManager._sentisAnimation);
     }
 
     void CheckCullingMask(YoloState yoloState)

@@ -1,15 +1,19 @@
 using System;
 using System.Collections;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
     public GameObject _shortcutInfo;
+    public GameObject _debuggerMode;
     public GameObject _sentisAnimation;
 
     private void Start()
     {
-        AnimatedSprite(_sentisAnimation);
+        //AnimatedSprite(_sentisAnimation);
     }
 
     void Update()
@@ -22,8 +26,14 @@ public class UIManager : MonoBehaviour
         {
             AnimatedSprite(_sentisAnimation);
         }
+        if (Input.GetKeyDown(KeyCode.F3))
+        {
+            _debuggerMode.SetActive(!_debuggerMode.activeSelf);
+        }
     }
 
+    
+    
     public void AnimatedSprite(GameObject gameObject)
     {
         if(gameObject.activeSelf != true)
@@ -34,7 +44,7 @@ public class UIManager : MonoBehaviour
     IEnumerator ActiveSprite(GameObject gameObject)
     {
         _sentisAnimation.SetActive(true); 
-        yield return new WaitForSeconds(3.0f); 
+        yield return new WaitForSeconds(2.0f); 
         _sentisAnimation.SetActive(false); 
     }
 }
