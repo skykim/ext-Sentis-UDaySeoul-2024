@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using StarterAssets;
@@ -6,6 +7,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.Playables;
 using UnityEngine.Rendering.HighDefinition;
+using UnityEngine.UI;
 
 public class SentisManager : MonoBehaviour
 {
@@ -21,8 +23,13 @@ public class SentisManager : MonoBehaviour
         NPCView,
         TopView
     }
+    enum YoloState
+    {
+        Toggle,
+        On,
+        Off
+    }
     
-    Dictionary<int, GameObject> cameraDictionary = new Dictionary<int, GameObject>();
     int activatedCamIndex = 1;
 
     public List<GameObject> _interiorObjects = new List<GameObject>(); 
@@ -56,10 +63,7 @@ public class SentisManager : MonoBehaviour
         _yoloObject = GameObject.FindWithTag("Yolo").GetComponent<ModelYOLO>();
         _UIManager = GameObject.FindWithTag("UIManager").GetComponent<UIManager>();
         _robotsDirector.Pause();
-        for (int i = 0; i < Cameras.Count; i++)
-        {
-            cameraDictionary.Add(i, Cameras[i]);
-        }
+
     }
 
     void Update()
@@ -99,6 +103,7 @@ public class SentisManager : MonoBehaviour
                 {
                     promptField.text = result;
                     promptField.onEndEdit.Invoke(promptField.text);
+                    promptField.text = "";
                 });
             }
         }
@@ -145,20 +150,22 @@ public class SentisManager : MonoBehaviour
         }
     }
     
-    void UpdateCameraState(CameraState newCameraState)
+    void UpdateCameraState(CameraState newCameraState, YoloState YoloState)
     {
         activatedCamIndex = (int)newCameraState;
-        foreach (KeyValuePair<int, GameObject> kvp in cameraDictionary)
+        for (int i=0; i < Enum.GetValues(typeof(CameraState)).Length; i++ )
         {
-            if (kvp.Key == activatedCamIndex)
+            if (i == activatedCamIndex)
             {
-                kvp.Value.SetActive(true);
+                Cameras[i].SetActive(true);
             }
             else
             {
-                kvp.Value.SetActive(false);
+                Cameras[i].SetActive(false);
             }
+
         }
+        YoloMode(YoloState);
     }
 
     void ToggleMood()
@@ -192,22 +199,42 @@ public class SentisManager : MonoBehaviour
             _robotsDirector.Pause();
     }
 
-    void ToggleYolo()
+    void YoloMode(YoloState yoloState)
     {
-        _yoloObject.ToggleYolo();
-        CheckCullingMask();
+        switch (yoloState)
+        {
+            case YoloState.On:
+                _yoloObject.StartYolo();
+            break;
+            case YoloState.Off:
+                _yoloObject.StopYolo();
+            break;
+            case YoloState.Toggle:
+                _yoloObject.ToggleYolo();
+            break;
+        }
+        CheckCullingMask(yoloState);
     }
 
-    void CheckCullingMask()
+    void CheckCullingMask(YoloState yoloState)
     {
-        if (Camera.main.name == "PlayerCamera")
-        {
-            cameraDictionary.TryGetValue(activatedCamIndex, out GameObject gameObject);
-            int playerLayerBit = 1 << LayerMask.NameToLayer("Player");
-            Camera _cam = gameObject.GetComponent<Camera>();
-            int currentMask = _cam.cullingMask;
-            bool isPlayerLayerIncluded = (currentMask & playerLayerBit) != 0;
+        GameObject gameObject = Cameras[activatedCamIndex];
+        int playerLayerBit = 1 << LayerMask.NameToLayer("Player");
+        Camera _cam = gameObject.GetComponent<Camera>();
+        int currentMask = _cam.cullingMask;
+        bool isPlayerLayerIncluded = (currentMask & playerLayerBit) != 0;
 
+        if (yoloState == YoloState.Off)
+        {
+            if (!isPlayerLayerIncluded)
+            {
+                currentMask |= playerLayerBit;
+                _cam.cullingMask = currentMask;
+            }
+        }
+
+        if (yoloState == YoloState.Toggle)
+        {
             if (isPlayerLayerIncluded)
             {
                 currentMask &= ~playerLayerBit;
@@ -227,23 +254,19 @@ public class SentisManager : MonoBehaviour
         switch (actionIndex)
         {
             case 0:
-                _yoloObject.StopYolo();
-                UpdateCameraState(CameraState.ForkreitView);
+                UpdateCameraState(CameraState.ForkreitView, YoloState.Off);
                 break;
             case 1:
-                _yoloObject.StopYolo();
-                UpdateCameraState(CameraState.NPCView);
+                UpdateCameraState(CameraState.NPCView, YoloState.Off);
                 break;
             case 2:
-                _yoloObject.StopYolo();
-                UpdateCameraState(CameraState.TopView);
+                UpdateCameraState(CameraState.TopView, YoloState.Off);
                 break;
             case 3:
-                ToggleYolo();
+                YoloMode(YoloState.Toggle);
                 break;
             case 4:
-                _yoloObject.StopYolo();
-                UpdateCameraState(CameraState.NPCView);
+                UpdateCameraState(CameraState.NPCView, YoloState.Off);
                 _reportController.StartCoroutine(_reportController.CheckAndMovePlayerTr(_player.transform));
                 _reportController.StartCoroutine(_reportController.CheckAnimator());
                 break;       

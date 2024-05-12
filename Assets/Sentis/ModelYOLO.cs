@@ -8,6 +8,7 @@ public class ModelYOLO : MonoBehaviour
 {
     [SerializeField]
     private string modelName = "yolov7-tiny.sentis";
+    SentisManager _sentisManager;
 
     public TextAsset labelsAsset;
     public Sprite boxTexture;
@@ -40,9 +41,26 @@ public class ModelYOLO : MonoBehaviour
         model = ModelLoader.Load(Application.streamingAssetsPath +"/"+ modelName);
         engine = WorkerFactory.CreateWorker(backend, model);
         customPassVolume = GetComponent<CustomPassVolume>();
-        
+        _sentisManager = GameObject.FindWithTag("SentisManager").GetComponent<SentisManager>();
         labels = labelsAsset.text.Split('\n');
     }
+
+    /*void UpdateCameraState(SentisManager.CameraState newCameraState, SentisManager.YoloState newYoloState = SentisManager.YoloState.Off)
+    {
+        activatedCamIndex = (int)newCameraState;
+        for (int i=0; i < Enum.GetValues(typeof(CameraState)).Length; i++ )
+        {
+            if (i == activatedCamIndex)
+            {
+                Cameras[i].SetActive(true);
+            }
+            else
+            {
+                Cameras[i].SetActive(false);
+            }
+
+        }
+    }*/
 
     public void StartYolo()
     {
