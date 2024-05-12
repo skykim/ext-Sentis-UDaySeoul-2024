@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -6,7 +7,11 @@ public class UIManager : MonoBehaviour
     public GameObject _shortcutInfo;
     public GameObject _sentisAnimation;
 
-    // Update is called once per frame
+    private void Start()
+    {
+        AnimatedSprite(_sentisAnimation);
+    }
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.F1))

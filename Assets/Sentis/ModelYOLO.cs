@@ -55,6 +55,14 @@ public class ModelYOLO : MonoBehaviour
         customPassVolume.enabled = false;
     }
 
+    public void ToggleYolo()
+    {
+        if (customPassVolume.enabled)
+            StopYolo();
+        else
+            StartYolo();
+    }
+
     public void DrawBoundingBoxes(int screenWidth, int screenHeight, TensorFloat output)
     {
         ClearAnnotations();

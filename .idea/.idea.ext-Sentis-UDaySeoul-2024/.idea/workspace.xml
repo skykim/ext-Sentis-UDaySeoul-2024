@@ -3,7 +3,21 @@
   <component name="ChangeListManager">
     <list default="true" id="f2bf69d9-2b02-414a-8844-de450158cd01" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.ext-Sentis-UDaySeoul-2024/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ext-Sentis-UDaySeoul-2024/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Hands-On/Measured Materials Library/Textures.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Hands-On/Measured Materials Library/Textures/CarFlakes_NM.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Hands-On/Measured Materials Library/Textures/CarFlakes_NM.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Hands-On/Measured Materials Library/Textures/MapleFundy_Brown_BC.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Hands-On/Measured Materials Library/Textures/MapleFundy_Brown_BC.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Hands-On/Measured Materials Library/Textures/MapleFundy_M.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Hands-On/Measured Materials Library/Textures/MapleFundy_M.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Hands-On/Measured Materials Library/Textures/Wood.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Hands-On/Measured Materials Library/Textures/Wood.mat.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Hands-On/New Folder.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Hands-On/Scripts/UIManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Hands-On/Scripts/UIManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Hands-On/Step2.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Hands-On/Step2.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sentis/ModelYOLO.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sentis/ModelYOLO.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sentis/SentisManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sentis/SentisManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/UI/Animation/Fade.anim" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/UI/Animation/Fade.anim" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,7 +84,7 @@
       <option name="presentableId" value="Default" />
       <updated>1715431727115</updated>
       <workItem from="1715431743313" duration="1778000" />
-      <workItem from="1715433962727" duration="1688000" />
+      <workItem from="1715433962727" duration="10210000" />
     </task>
     <servers />
   </component>

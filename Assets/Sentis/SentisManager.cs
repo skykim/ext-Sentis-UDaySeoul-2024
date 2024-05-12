@@ -12,7 +12,6 @@ public class SentisManager : MonoBehaviour
     ModelWhisper _whisperObject;
     ModelMiniLM _miniLMObject;
     ModelYOLO _yoloObject;
-    CustomPassVolume _yoloPass;
     UIManager _UIManager;
     public List<string> actionList;
     public List<GameObject> Cameras = new List<GameObject>();
@@ -55,7 +54,6 @@ public class SentisManager : MonoBehaviour
         _whisperObject = GameObject.FindWithTag("Whisper").GetComponent<ModelWhisper>();
         _miniLMObject = GameObject.FindWithTag("MiniLM").GetComponent<ModelMiniLM>();
         _yoloObject = GameObject.FindWithTag("Yolo").GetComponent<ModelYOLO>();
-        _yoloPass =  GameObject.FindWithTag("Yolo").GetComponent<CustomPassVolume>();
         _UIManager = GameObject.FindWithTag("UIManager").GetComponent<UIManager>();
         _robotsDirector.Pause();
         for (int i = 0; i < Cameras.Count; i++)
@@ -67,12 +65,22 @@ public class SentisManager : MonoBehaviour
     void Update()
     {
         bool isPromptFieldVisible = promptField.gameObject.activeSelf;
-        
-        if (Input.GetKeyDown(KeyCode.Tab))
+        //if(isPromptFieldVisible == false && _controller.enabled == false)
+        //    _controller.enabled = true;
+
+        if (Input.GetKeyDown(KeyCode.Return))
         {
-            promptField.gameObject.SetActive(!isPromptFieldVisible);
-            _controller.enabled = !_controller.enabled;
-            promptField.ActivateInputField();
+            if (isPromptFieldVisible)
+            {
+                promptField.gameObject.SetActive(false);
+                _controller.enabled = true;
+            }
+            else
+            {
+                promptField.gameObject.SetActive(true);
+                promptField.ActivateInputField();
+                _controller.enabled = false;
+            }
         }
         
         if (Input.GetKeyDown(KeyCode.RightBracket))
@@ -89,7 +97,6 @@ public class SentisManager : MonoBehaviour
                 _whisperObject.StopRecording();
                 _whisperObject.RunWhisper(result =>
                 {
-                    Debug.Log("Result:" + result);
                     promptField.text = result;
                     promptField.onEndEdit.Invoke(promptField.text);
                 });
@@ -109,7 +116,6 @@ public class SentisManager : MonoBehaviour
                 if (result != "Error")
                 {
                     textSimilarity.text = promptField.text + " (" + result + ")\n";
-                    
                     Debug.Log("Translated: " + result);
                     
                     for(int index=0; index<actionList.Count; index++)
@@ -122,7 +128,7 @@ public class SentisManager : MonoBehaviour
                             maxScoreIndex = index;
                         }
                 
-                        textSimilarity.text += index.ToString() + ": " + actionList[index] + " " + score.ToString("F3") + "\n";
+                        textSimilarity.text += score.ToString("F3") + " " + actionList[index] + "\n";
                     }
                     
                     if (maxScore > similarity_threshold)
@@ -132,6 +138,9 @@ public class SentisManager : MonoBehaviour
                 {
                     Debug.Log("Translation error");
                 }
+
+                promptField.text = "";
+                promptField.gameObject.SetActive(false);
             }));
         }
     }
@@ -183,30 +192,32 @@ public class SentisManager : MonoBehaviour
             _robotsDirector.Pause();
     }
 
-    void EnableYolo()
+    void ToggleYolo()
     {
-        _yoloPass.enabled = !_yoloPass.enabled;
+        _yoloObject.ToggleYolo();
         CheckCullingMask();
-        _UIManager.AnimatedSprite(_UIManager._sentisAnimation);
     }
 
     void CheckCullingMask()
     {
-        cameraDictionary.TryGetValue(activatedCamIndex, out GameObject gameObject);
-        int playerLayerBit = 1 << LayerMask.NameToLayer("Player");
-        Camera _cam = gameObject.GetComponent<Camera>();
-        int currentMask = _cam.cullingMask;
-        bool isPlayerLayerIncluded = (currentMask & playerLayerBit) != 0;
+        if (Camera.main.name == "PlayerCamera")
+        {
+            cameraDictionary.TryGetValue(activatedCamIndex, out GameObject gameObject);
+            int playerLayerBit = 1 << LayerMask.NameToLayer("Player");
+            Camera _cam = gameObject.GetComponent<Camera>();
+            int currentMask = _cam.cullingMask;
+            bool isPlayerLayerIncluded = (currentMask & playerLayerBit) != 0;
 
-        if (isPlayerLayerIncluded)
-        {
-            currentMask &= ~playerLayerBit; 
-            _cam.cullingMask = currentMask;
-        }
-        else
-        {
-            currentMask |= playerLayerBit;
-            _cam.cullingMask = currentMask;
+            if (isPlayerLayerIncluded)
+            {
+                currentMask &= ~playerLayerBit;
+                _cam.cullingMask = currentMask;
+            }
+            else
+            {
+                currentMask |= playerLayerBit;
+                _cam.cullingMask = currentMask;
+            }
         }
     }
     
@@ -216,18 +227,23 @@ public class SentisManager : MonoBehaviour
         switch (actionIndex)
         {
             case 0:
+                _yoloObject.StopYolo();
                 UpdateCameraState(CameraState.ForkreitView);
                 break;
             case 1:
+                _yoloObject.StopYolo();
                 UpdateCameraState(CameraState.NPCView);
                 break;
             case 2:
+                _yoloObject.StopYolo();
                 UpdateCameraState(CameraState.TopView);
                 break;
             case 3:
-                EnableYolo();
+                ToggleYolo();
                 break;
             case 4:
+                _yoloObject.StopYolo();
+                UpdateCameraState(CameraState.NPCView);
                 _reportController.StartCoroutine(_reportController.CheckAndMovePlayerTr(_player.transform));
                 _reportController.StartCoroutine(_reportController.CheckAnimator());
                 break;       
