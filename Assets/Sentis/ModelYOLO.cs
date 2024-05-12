@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Unity.Sentis;
 using UnityEngine;
@@ -7,9 +8,15 @@ using UnityEngine.UI;
 public class ModelYOLO : MonoBehaviour
 {
     [SerializeField]
-    private string modelName = "yolov7-tiny.sentis";
-    SentisManager _sentisManager;
+    public enum SelectedModel
+    {
+        Original,
+        Float16,
+        Uint8
+    }
+    public SelectedModel _selectedModel;
 
+    string modelName;
     public TextAsset labelsAsset;
     public Sprite boxTexture;
     public Font font;
@@ -38,29 +45,31 @@ public class ModelYOLO : MonoBehaviour
     
     void Start()
     {
+        SelectQuantized();
         model = ModelLoader.Load(Application.streamingAssetsPath +"/"+ modelName);
         engine = WorkerFactory.CreateWorker(backend, model);
         customPassVolume = GetComponent<CustomPassVolume>();
-        _sentisManager = GameObject.FindWithTag("SentisManager").GetComponent<SentisManager>();
         labels = labelsAsset.text.Split('\n');
     }
 
-    /*void UpdateCameraState(SentisManager.CameraState newCameraState, SentisManager.YoloState newYoloState = SentisManager.YoloState.Off)
+    public void SelectQuantized()
     {
-        activatedCamIndex = (int)newCameraState;
-        for (int i=0; i < Enum.GetValues(typeof(CameraState)).Length; i++ )
+        switch (_selectedModel)
         {
-            if (i == activatedCamIndex)
-            {
-                Cameras[i].SetActive(true);
-            }
-            else
-            {
-                Cameras[i].SetActive(false);
-            }
-
+            case SelectedModel.Original:
+                modelName = "yolov7-tiny.sentis";
+                Debug.Log(modelName);
+                break;
+            case SelectedModel.Float16:
+                modelName = "yolov7-tiny_Float16.sentis";
+                Debug.Log(modelName);
+                break;
+            case SelectedModel.Uint8:
+                modelName = "yolov7-tiny_Uint8.sentis";
+                Debug.Log(modelName);
+                break;
         }
-    }*/
+    }
 
     public void StartYolo()
     {
