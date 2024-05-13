@@ -37,7 +37,7 @@ public class SentisManager : MonoBehaviour
     private GameObject _reporter; 
 
     public TMP_Text textSimilarity;
-    private string _dashLine = new string('=', 34);
+    private string _dashLine = new string('=', 43);
 
     public PlayableDirector robotsDirector;
 
@@ -133,7 +133,7 @@ public class SentisManager : MonoBehaviour
                     {
                         if (index == maxScoreIndex && scoreList[index] >= similarityThreshold)
                         {
-                            textSimilarity.text += "<color=#FFA500>" + scoreList[index].ToString("F3") + " " + actionList[index] + "</color>\n";
+                            textSimilarity.text += "<color=#FF5733>" + scoreList[index].ToString("F3") + " " + "</color><color=#FFA500>" + actionList[index] + "</color>\n";
                         }
                         else
                         {
