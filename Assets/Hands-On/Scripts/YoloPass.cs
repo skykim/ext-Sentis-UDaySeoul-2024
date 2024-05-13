@@ -5,26 +5,25 @@ using UnityEngine.Rendering.HighDefinition;
 
 class YoloPass : CustomPass
 {
-    private RenderTexture targetRT;
-    private const int imageWidth = 640;
-    private const int imageHeight = 640;
+    private RenderTexture _targetRT;
+    private const int _imageWidth = 640;
+    private const int _imageHeight = 640;
     public ModelYOLO yoloObject;
-
+        
     protected override void Setup(ScriptableRenderContext renderContext, CommandBuffer cmd)
     {
         yoloObject.ClearAnnotations();
+        _targetRT = new RenderTexture(_imageWidth, _imageHeight, 0);
     }
 
     protected override void Execute(CustomPassContext ctx)
     {
-        targetRT = new RenderTexture(imageWidth, imageHeight, 0);
-        Graphics.Blit(ctx.cameraColorBuffer, targetRT);
+        Graphics.Blit(ctx.cameraColorBuffer, _targetRT);
         
-        using var input = TextureConverter.ToTensor(targetRT, imageWidth, imageHeight, 3);
+        using var input = TextureConverter.ToTensor(_targetRT, _imageWidth, _imageHeight, 3);
         yoloObject.engine.Execute(input);
         using var output = yoloObject.engine.PeekOutput() as TensorFloat;
         output.CompleteOperationsAndDownload();
-        //output.PrintDataPart(7);
         
         yoloObject.DrawBoundingBoxes(ctx.cameraColorBuffer.rt.width, ctx.cameraColorBuffer.rt.height, output);
     }
@@ -32,5 +31,11 @@ class YoloPass : CustomPass
     protected override void Cleanup()
     {
         yoloObject.ClearAnnotations();
+
+        if (_targetRT != null)
+        {
+            _targetRT.Release();
+            _targetRT = null;
+        }
     }
 }

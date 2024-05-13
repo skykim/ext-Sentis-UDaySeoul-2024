@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Unity.Sentis;
 using UnityEngine;
@@ -7,87 +6,46 @@ using UnityEngine.UI;
 
 public class ModelYOLO : MonoBehaviour
 {
-    [SerializeField]
-    public enum SelectedModel
-    {
-        Original,
-        Float16,
-        Uint8
-    }
-    public SelectedModel _selectedModel;
-
-    string modelName;
+    public string modelName = "yolov7-tiny.sentis";
     public TextAsset labelsAsset;
     public Sprite boxTexture;
     public Font font;
     public GameObject displayLocation;
     
-    private Model model;
+    private Model _model;
     public IWorker engine;
-    const BackendType backend = BackendType.GPUCompute;
-    private CustomPassVolume customPassVolume;
+    const BackendType BACKEND = BackendType.GPUCompute;
+    private CustomPassVolume _customPassVolume;
     
-    private string[] labels;
-    private const int imageWidth = 640;
-    private const int imageHeight = 640;
+    private string[] _labels;
+    private const int _imageWidth = 640;
+    private const int _imageHeight = 640;
 
-    List<GameObject> boxPool = new List<GameObject>();
-    //bounding box data
-    public struct BoundingBox
-    {
-        public float centerX;
-        public float centerY;
-        public float width;
-        public float height;
-        public string label;
-        public float confidence;
-    }
+    private List<GameObject> _boxPool = new List<GameObject>();
     
     void Start()
     {
-        customPassVolume = GetComponent<CustomPassVolume>();
-        labels = labelsAsset.text.Split('\n');
-    }
-
-    public void SelectingModel()
-    {
-        engine?.Dispose();
-        switch (_selectedModel)
-        {
-            case SelectedModel.Original:
-                modelName = "yolov7-tiny.sentis";
-                break;
-            case SelectedModel.Float16:
-                modelName = "yolov7-tiny_Float16.sentis";
-                break;
-            case SelectedModel.Uint8:
-                modelName = "yolov7-tiny_Uint8.sentis";
-                break;
-        }
-        model = ModelLoader.Load(Application.streamingAssetsPath +"/"+ modelName);
-        engine = WorkerFactory.CreateWorker(backend, model);
-        Debug.Log("Select : " + modelName);
-    }
-
-    void OnValidate()
-    {
-        SelectingModel();
+        _customPassVolume = GetComponent<CustomPassVolume>();
+        _labels = labelsAsset.text.Split('\n');
+        
+        _model = ModelLoader.Load(Application.streamingAssetsPath +"/"+ modelName);
+        engine = WorkerFactory.CreateWorker(BACKEND, _model);
     }
 
     public void StartYolo()
     {
-        customPassVolume.enabled = true;
+        _customPassVolume.enabled = true;
     }
 
     public void StopYolo()
     {
         ClearAnnotations();
-        customPassVolume.enabled = false;
+        _customPassVolume.enabled = false;
     }
 
     public void ToggleYolo()
     {
-        if (customPassVolume.enabled)
+        if (_customPassVolume.enabled)
             StopYolo();
         else
             StartYolo();
@@ -100,8 +58,8 @@ public class ModelYOLO : MonoBehaviour
         float displayWidth = screenWidth;
         float displayHeight = screenHeight;
 
-        float scaleX = displayWidth / imageWidth;
-        float scaleY = displayHeight / imageHeight;
+        float scaleX = displayWidth / _imageWidth;
+        float scaleY = displayHeight / _imageHeight;
 
         //Draw the bounding boxes
         for (int n = 0; n < output.shape[0]; n++)
@@ -118,7 +76,7 @@ public class ModelYOLO : MonoBehaviour
                 centerY = ((output[n, 2] + output[n, 4])*scaleY - displayHeight) / 2,
                 width = (output[n, 3] - output[n, 1])*scaleX,
                 height = (output[n, 4] - output[n, 2])*scaleY,
-                label = labels[(int)output[n, 5]],
+                label = _labels[(int)output[n, 5]],
                 confidence = Mathf.FloorToInt(output[n, 6] * 100 + 0.5f)
             };
             DrawBox(box, n); 
@@ -129,15 +87,16 @@ public class ModelYOLO : MonoBehaviour
     {
         //Create the bounding box graphic or get from pool
         GameObject panel;
-        if (id < boxPool.Count)
+        if (id < _boxPool.Count)
         {
-            panel = boxPool[id];
+            panel = _boxPool[id];
             panel.SetActive(true);
         }
         else
         {
             panel = CreateNewBox(Color.yellow);
         }
+        
         //Set box position
         panel.transform.localPosition = new Vector3(box.centerX, -box.centerY);
 
@@ -153,7 +112,6 @@ public class ModelYOLO : MonoBehaviour
     public GameObject CreateNewBox(Color color)
     {
         //Create the box and set image
-
         var panel = new GameObject("ObjectBox");
         panel.AddComponent<CanvasRenderer>();
         Image img = panel.AddComponent<Image>();
@@ -163,7 +121,6 @@ public class ModelYOLO : MonoBehaviour
         panel.transform.SetParent(displayLocation.transform, false);
 
         //Create the label
-
         var text = new GameObject("ObjectLabel");
         text.AddComponent<CanvasRenderer>();
         text.transform.SetParent(panel.transform, false);
@@ -181,13 +138,13 @@ public class ModelYOLO : MonoBehaviour
         rt2.anchorMin = new Vector2(0, 0);
         rt2.anchorMax = new Vector2(1, 1);
 
-        boxPool.Add(panel);
+        _boxPool.Add(panel);
         return panel;
     }
 
     public void ClearAnnotations()
     {
-        foreach(var box in boxPool)
+        foreach(var box in _boxPool)
         {
             box.SetActive(false);
         }

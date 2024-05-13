@@ -1,50 +1,39 @@
-using System;
 using System.Collections;
-using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    public GameObject _shortcutInfo;
-    public GameObject _debuggerMode;
+    public GameObject _shortcutPanel;
+    public GameObject _debuggerPanel;
     public GameObject _sentisAnimation;
-
-    private void Start()
-    {
-        //AnimatedSprite(_sentisAnimation);
-    }
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.F1))
         {
-            _shortcutInfo.SetActive(!_shortcutInfo.activeSelf);
+            _shortcutPanel.SetActive(!_shortcutPanel.activeSelf);
         }
         if (Input.GetKeyDown(KeyCode.F2))
         {
-            AnimatedSprite(_sentisAnimation);
+            _debuggerPanel.SetActive(!_debuggerPanel.activeSelf);
         }
         if (Input.GetKeyDown(KeyCode.F3))
         {
-            _debuggerMode.SetActive(!_debuggerMode.activeSelf);
+            AnimatedSprite(_sentisAnimation);
         }
     }
-
     
-    
-    public void AnimatedSprite(GameObject gameObject)
+    public void AnimatedSprite(GameObject splashObject)
     {
         if(gameObject.activeSelf != true)
         {
-            StartCoroutine(ActiveSprite(gameObject));
+            StartCoroutine(ActiveSprite(splashObject));
         }
     }
-    IEnumerator ActiveSprite(GameObject gameObject)
+    IEnumerator ActiveSprite(GameObject splashObject)
     {
-        _sentisAnimation.SetActive(true); 
+        splashObject.SetActive(true); 
         yield return new WaitForSeconds(2.0f); 
-        _sentisAnimation.SetActive(false); 
+        splashObject.SetActive(false); 
     }
 }

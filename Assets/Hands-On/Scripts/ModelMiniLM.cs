@@ -6,19 +6,19 @@ using UnityEngine;
 
 public class ModelMiniLM : MonoBehaviour
 {
-    [SerializeField] private string modelName = "MiniLMv6.sentis";
-    [SerializeField] private string vocabName = "vocab.txt";
+    public string modelName = "MiniLMv6.sentis";
+    public string vocabName = "vocab.txt";
 
-    private IWorker engine, dotScore;
-    const BackendType backend = BackendType.GPUCompute;
+    private IWorker _engine, _dotScore;
+    private const BackendType BACKEND = BackendType.GPUCompute;
 
     //Token
-    const int START_TOKEN = 101;
-    const int END_TOKEN = 102;
+    private const int START_TOKEN = 101;
+    private const int END_TOKEN = 102;
 
     //Store the vocabulary
-    string[] tokens;
-    const int FEATURES = 384; //size of feature space
+    private string[] _tokens;
+    private const int FEATURES = 384; //size of feature space
 
     void Start()
     {
@@ -38,10 +38,10 @@ public class ModelMiniLM : MonoBehaviour
                 InputDef.Float(new TensorShape(1, FEATURES)))
         );
 
-        engine = WorkerFactory.CreateWorker(backend, modelWithMeanPooling);
-        dotScore = WorkerFactory.CreateWorker(backend, dotScoreModel);
+        _engine = WorkerFactory.CreateWorker(BACKEND, modelWithMeanPooling);
+        _dotScore = WorkerFactory.CreateWorker(BACKEND, dotScoreModel);
 
-        tokens = File.ReadAllLines(Application.streamingAssetsPath + "/" + vocabName);
+        _tokens = File.ReadAllLines(Application.streamingAssetsPath + "/" + vocabName);
     }
 
     FunctionalTensor MeanPooling(FunctionalTensor tokenEmbeddings, FunctionalTensor attentionMask)
@@ -72,10 +72,18 @@ public class ModelMiniLM : MonoBehaviour
             { "input_0", A },
             { "input_1", B }
         };
-        dotScore.Execute(inputs);
-        var output = dotScore.PeekOutput() as TensorFloat;
-        output.CompleteOperationsAndDownload();
-        return output[0];
+        _dotScore.Execute(inputs);
+        var output = _dotScore.PeekOutput() as TensorFloat;
+        if (output != null)
+        {
+            output.CompleteOperationsAndDownload();
+            return output[0];
+        }
+        else
+        {
+            Debug.LogError("Failed to compute dot score. Output is null.");
+            return 0;
+        }
     }
 
     TensorFloat GetEmbedding(List<int> tokens)
@@ -98,9 +106,9 @@ public class ModelMiniLM : MonoBehaviour
             { "input_2", token_type_ids }
         };
 
-        engine.Execute(inputs);
+        _engine.Execute(inputs);
 
-        var output = engine.TakeOutputOwnership("output_0") as TensorFloat;
+        var output = _engine.TakeOutputOwnership("output_0") as TensorFloat;
         return output;
     }
 
@@ -122,7 +130,7 @@ public class ModelMiniLM : MonoBehaviour
             for (int i = word.Length; i >= 0; i--)
             {
                 string subword = start == 0 ? word.Substring(start, i) : "##" + word.Substring(start, i - start);
-                int index = System.Array.IndexOf(tokens, subword);
+                int index = System.Array.IndexOf(_tokens, subword);
                 if (index >= 0)
                 {
                     ids.Add(index);
@@ -140,7 +148,7 @@ public class ModelMiniLM : MonoBehaviour
     
     private void OnDestroy()
     {
-        engine?.Dispose();
-        dotScore?.Dispose();
+        _engine?.Dispose();
+        _dotScore?.Dispose();
     }
 }
