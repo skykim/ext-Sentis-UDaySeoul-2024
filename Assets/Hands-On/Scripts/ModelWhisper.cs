@@ -12,6 +12,16 @@ public class ModelWhisper : MonoBehaviour
     public string encoderModelName = "AudioEncoder_Small.sentis";
     public string decoderModelName = "AudioDecoder_Small.sentis";
     public string vocabName = "vocab.json";
+    public WhisperLanguage speakerLanguage = WhisperLanguage.KOREAN;
+    
+    public enum WhisperLanguage
+    {
+        ENGLISH = 50259,
+        KOREAN = 50264,
+        JAPAN = 50266
+    }
+
+public bool isReplay = false;
     
     private IWorker _logMelSpectroEngine;
     private IWorker _encoderEngine;
@@ -43,10 +53,6 @@ public class ModelWhisper : MonoBehaviour
     const int maxTokens = 100;
     const int END_OF_TEXT = 50257;
     const int START_OF_TRANSCRIPT = 50258;
-    const int ENGLISH = 50259;
-    const int GERMAN = 50261;
-    const int KOREAN = 50264;
-    const int FRENCH = 50265;
     const int TRANSCRIBE = 50359; //for speech-to-text in specified language
     const int TRANSLATE = 50358;  //for speech-to-text then translate to English
     const int NO_TIME_STAMPS = 50363; 
@@ -151,7 +157,8 @@ public class ModelWhisper : MonoBehaviour
     {
         AudioSource audioSource = GetComponent<AudioSource>();
         audioSource.clip = _audioClip;
-        audioSource.Play();
+        if (isReplay)
+            audioSource.Play();
         
         LoadAudioClip();
         
@@ -167,8 +174,10 @@ public class ModelWhisper : MonoBehaviour
         _transcribe = true;
         _outputString = "";
         
+        Array.Fill(_outputTokens, 0);
+        
         _outputTokens[0] = START_OF_TRANSCRIPT;
-        _outputTokens[1] = KOREAN; //ENGLISH;// GERMAN;//FRENCH;//
+        _outputTokens[1] = (int)speakerLanguage; //ENGLISH;//GERMAN;//FRENCH;//
         _outputTokens[2] = TRANSCRIBE; //TRANSLATE;//TRANSCRIBE;
         _outputTokens[3] = NO_TIME_STAMPS;// START_TIME;//
         _currentToken = 3;

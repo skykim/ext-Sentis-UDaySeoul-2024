@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using Unity.Sentis;
 using UnityEngine;
@@ -11,9 +13,10 @@ public class ModelYOLO : MonoBehaviour
     public Sprite boxTexture;
     public Font font;
     public GameObject displayLocation;
+    public RenderTexture yoloTexture;
     
     private Model _model;
-    public IWorker engine;
+    private IWorker _engine;
     const BackendType BACKEND = BackendType.GPUCompute;
     private CustomPassVolume _customPassVolume;
     
@@ -29,7 +32,20 @@ public class ModelYOLO : MonoBehaviour
         _labels = labelsAsset.text.Split('\n');
         
         _model = ModelLoader.Load(Application.streamingAssetsPath +"/"+ modelName);
-        engine = WorkerFactory.CreateWorker(BACKEND, _model);
+        _engine = WorkerFactory.CreateWorker(BACKEND, _model);
+    }
+
+    private void LateUpdate()
+    {
+        if (_customPassVolume.enabled)
+        {
+            using var input = TextureConverter.ToTensor(yoloTexture, _imageWidth, _imageHeight, 3);
+            _engine.Execute(input);
+            
+            using TensorFloat outputTensor = _engine.PeekOutput() as TensorFloat;
+            outputTensor.CompleteOperationsAndDownload();
+            DrawBoundingBoxes(yoloTexture.width, yoloTexture.height, outputTensor);
+        }
     }
 
     public void StartYolo()
@@ -53,14 +69,14 @@ public class ModelYOLO : MonoBehaviour
 
     public void DrawBoundingBoxes(int screenWidth, int screenHeight, TensorFloat output)
     {
-        ClearAnnotations();
-        
         float displayWidth = screenWidth;
         float displayHeight = screenHeight;
 
         float scaleX = displayWidth / _imageWidth;
         float scaleY = displayHeight / _imageHeight;
-
+        
+        ClearAnnotations();
+        
         //Draw the bounding boxes
         for (int n = 0; n < output.shape[0]; n++)
         {
@@ -152,6 +168,6 @@ public class ModelYOLO : MonoBehaviour
     
     private void OnDestroy()
     {
-        engine?.Dispose();
+        _engine?.Dispose();
     }
 }

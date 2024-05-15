@@ -291,6 +291,19 @@ public class SentisManager : MonoBehaviour
     {
         var toLanguage = "en";
         var fromLanguage = "ko";
+
+        switch (whisperObject.speakerLanguage)
+        {
+            case ModelWhisper.WhisperLanguage.ENGLISH:
+                fromLanguage = "en";
+                break;
+            case ModelWhisper.WhisperLanguage.KOREAN:
+                fromLanguage = "ko";
+                break;
+            case ModelWhisper.WhisperLanguage.JAPAN:
+                fromLanguage = "ja";
+                break;
+        }
         
         string url = $"https://translate.googleapis.com/translate_a/single?client=gtx&sl={fromLanguage}&tl={toLanguage}&dt=t&q={UnityWebRequest.EscapeURL(word)}";
 
