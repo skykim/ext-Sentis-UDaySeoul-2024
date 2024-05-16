@@ -21,7 +21,7 @@ public class ModelWhisper : MonoBehaviour
         JAPAN = 50266
     }
 
-public bool isReplay = false;
+    public bool isReplay = false;
     
     private IWorker _logMelSpectroEngine;
     private IWorker _encoderEngine;
