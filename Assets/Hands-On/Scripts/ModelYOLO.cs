@@ -8,7 +8,8 @@ using UnityEngine.UI;
 
 public class ModelYOLO : MonoBehaviour
 {
-    public string modelName = "yolov7-tiny.sentis";
+    //public string modelName = "yolov7-tiny.sentis";
+    public string modelName = "yolov7-tiny_IOU_08_Float16.sentis";
     public TextAsset labelsAsset;
     public Sprite boxTexture;
     public Font font;
