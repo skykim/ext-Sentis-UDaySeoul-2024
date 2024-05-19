@@ -13,7 +13,7 @@ public class ModelYOLO : MonoBehaviour
     public Font font;
     public GameObject displayLocation;
     public RenderTexture yoloTexture;
-    
+    // yoloTexture (1920x1080), Input (640x640
     private Model _model;
     private IWorker _engine;
     const BackendType BACKEND = BackendType.GPUCompute;
@@ -44,6 +44,8 @@ public class ModelYOLO : MonoBehaviour
             using TensorFloat outputTensor = _engine.PeekOutput() as TensorFloat;
             outputTensor.CompleteOperationsAndDownload();
             DrawBoundingBoxes(yoloTexture.width, yoloTexture.height, outputTensor);
+            //Debug.Log("Output Tensor's shape : " + outputTensor.shape);
+            //outputTensor.PrintDataPart(7);
         }
     }
 
