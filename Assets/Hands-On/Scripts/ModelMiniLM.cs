@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class ModelMiniLM : MonoBehaviour
 {
-    public string modelName = "MiniLMv6.sentis";
+    public string modelName = "MiniLML12v2.sentis";
     public string vocabName = "vocab.txt";
 
     private IWorker _engine, _dotScore;

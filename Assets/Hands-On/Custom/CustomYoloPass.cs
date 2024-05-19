@@ -1,17 +1,11 @@
-using UnityEngine.Rendering;
+using UnityEngine;
 using UnityEngine.Rendering.HighDefinition;
 
 class CustomYoloPass : CustomPass
 {
-    protected override void Setup(ScriptableRenderContext renderContext, CommandBuffer cmd)
-    {
-    }
-
+    public RenderTexture targetRT;
     protected override void Execute(CustomPassContext ctx)
     {
-    }
-
-    protected override void Cleanup()
-    {
+        Graphics.Blit(ctx.cameraColorBuffer, targetRT);
     }
 }
