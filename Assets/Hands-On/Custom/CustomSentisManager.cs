@@ -16,6 +16,13 @@ public class CustomSentisManager : MonoBehaviour
     public TMP_InputField promptField;
     public float similarityThreshold = 0.5f;
 
+    enum YoloState
+    {
+        Toggle,
+        On,
+        Off
+    }
+    
     void Start()
     {
         promptField.gameObject.SetActive(false);
@@ -99,6 +106,9 @@ public class CustomSentisManager : MonoBehaviour
                             textSimilarity.text += scoreList[index].ToString("F3") + " " + actionList[index] + "\n";
                         }
                     }
+                    
+                    if (maxScore >= similarityThreshold)
+                        DoAction(maxScoreIndex);
                 }
                 else
                 {
@@ -111,12 +121,46 @@ public class CustomSentisManager : MonoBehaviour
         }
     }
     
-    void SetYoloMode(bool isYoloMode)
+    void DoAction(int actionIndex)
     {
-        if(isYoloMode)
-            yoloObject.StartYolo();
-        else
-            yoloObject.StopYolo();
+        Debug.Log("chosen action:" + actionIndex);
+        switch (actionIndex)
+        {
+            case 0:
+                SetYoloMode(YoloState.Off);
+                break;
+            case 1:
+                SetYoloMode(YoloState.Off);
+                break;
+            case 2:
+                SetYoloMode(YoloState.Off);
+                break;
+            case 3:
+                SetYoloMode(YoloState.Toggle);
+                break;
+            case 4:
+                break;       
+            case 5:
+                break;
+            case 6:
+                break;
+        }
+    }
+    
+    void SetYoloMode(YoloState yoloState)
+    {
+        switch (yoloState)
+        {
+            case YoloState.On:
+                yoloObject.StartYolo();
+                break;
+            case YoloState.Off:
+                yoloObject.StopYolo();
+                break;
+            case YoloState.Toggle:
+                yoloObject.ToggleYolo();
+                break;
+        }
     }
 
     private IEnumerator TranslateCoroutine(string word, System.Action<string> callback)
