@@ -127,13 +127,10 @@ public class CustomSentisManager : MonoBehaviour
         switch (actionIndex)
         {
             case 0:
-                SetYoloMode(YoloState.Off);
                 break;
             case 1:
-                SetYoloMode(YoloState.Off);
                 break;
             case 2:
-                SetYoloMode(YoloState.Off);
                 break;
             case 3:
                 SetYoloMode(YoloState.Toggle);
