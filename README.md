@@ -8,8 +8,7 @@ This project was made to aid the testing and development of [**Unity Sentis**](h
 ## **(IMPORTANT)** Standard Unity Asset Store EULA
 The Baseline of this project is [**Unity Warehouse**](https://assetstore.unity.com/packages/3d/environments/industrial/unity-warehouse-276394) made by Unity Technologies Japan. Before you start, Don't forget to adding it to **your asset** because The baseline asset follow Standard Unity Asset Store Eula especially single entity license.
 
-We highly don't want to take traffic. 
-
+Please visit and download from the original asset to support legitimate traffic.
 
 ## How To Get Started
 Download and install Unity 2023.2.17 ([Unity HUB](unityhub://2023.2.17f1/396a1c6fe404), [Unity Website](https://unity.com/kr/releases/editor/whats-new/2023.2.17)]
@@ -28,4 +27,5 @@ As this project is on going there is a lot more left that needs to be worked on,
 
 
 ## Credits
-WIP
+Sky Kim
+Woojin Park
